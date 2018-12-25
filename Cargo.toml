@@ -1,0 +1,10 @@
+[package]
+name = "merry-christmas-wasm"
+version = "0.1.0"
+authors = ["NeuroWhAI <tlsehdgus321@naver.com>"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+lazy_static = "1.2.0"
