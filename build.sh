@@ -1,1 +1,1 @@
-cargo build --release && wasm-gc target/wasm32-unknown-unknown/release/merry_christmas_wasm.wasm web/main.wasm
+cargo build --release && wasm-gc target/wasm32-unknown-unknown/release/merry_christmas_wasm.wasm docs/main.wasm
