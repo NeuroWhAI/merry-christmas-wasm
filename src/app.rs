@@ -1,7 +1,7 @@
 use std::sync::Mutex;
 
 use point::Point;
-use glue::{gen_rand};
+use glue::gen_rand;
 
 
 lazy_static! {
@@ -38,7 +38,7 @@ impl AppState {
         AppState {
             width: 0,
             height: 0,
-            snows: Vec::new(),
+            snows: Vec::with_capacity(2048),
             snow_vel: Point::new(0.1, 0.6),
             snow_rate: 1,
         }

@@ -8,6 +8,9 @@ let wasmImports = {
         unsafe_random: function() {
             return Math.random();
         },
+        unsafe_log_num: function(num) {
+            console.log(num);
+        }
     },
 };
 
@@ -18,7 +21,6 @@ fetch('main.wasm')
     let mod = {};
     let inst = results.instance;
     mod.alloc = inst.exports.alloc;
-    mod.dealloc = inst.exports.dealloc;
     mod.initialize = inst.exports.initialize;
     mod.step = inst.exports.step;
 
@@ -40,7 +42,7 @@ fetch('main.wasm')
             mod.step(pointer, width, height);
         
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.putImageData(img, 0, 0)
+            ctx.putImageData(img, 0, 0);
 
             window.requestAnimationFrame(step);
         }

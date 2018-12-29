@@ -1,11 +1,16 @@
-use std::mem;
 use std::slice;
 use std::os::raw::c_void;
+use std::sync::Mutex;
 
 use app::{self};
 
+lazy_static! {
+    static ref memory: Mutex<Vec<u8>> = Mutex::new(Vec::new());
+}
+
 extern {
     fn unsafe_random() -> f32;
+    fn unsafe_log_num(num: f32);
 }
 
 pub fn gen_rand() -> f32 {
@@ -14,20 +19,18 @@ pub fn gen_rand() -> f32 {
     }
 }
 
-// In order to work with the memory we expose (de)allocation methods
-#[no_mangle]
-pub extern "C" fn alloc(size: usize) -> *mut c_void {
-    let mut buf = Vec::with_capacity(size);
-    let ptr = buf.as_mut_ptr();
-    mem::forget(buf);
-    return ptr as *mut c_void;
+pub fn log_num(num: f32) {
+    unsafe {
+        unsafe_log_num(num);
+    }
 }
 
 #[no_mangle]
-pub extern "C" fn dealloc(ptr: *mut c_void, cap: usize) {
-    unsafe  {
-        let _buf = Vec::from_raw_parts(ptr, 0, cap);
-    }
+pub extern "C" fn alloc(size: usize) -> *mut c_void {
+    let mut v = memory.lock().unwrap();
+    v.resize(size, 0);
+    let ptr = v.as_mut_ptr();
+    return ptr as *mut c_void;
 }
 
 #[no_mangle]
