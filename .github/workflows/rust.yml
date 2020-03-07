@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Target
+      run: rustup target add wasm32-unknown-unknown 
     - name: Build
       run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
